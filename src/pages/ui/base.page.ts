@@ -1,18 +1,19 @@
 import { Locator, Page } from '@playwright/test';
-import { HomePage, LoginPage, UserPage } from '.';
+import { HomePage, LoginPage, SettingsPage, UserPage } from '.';
 
 export class BasePage {
-  private readonly page: Page;
+  protected readonly page: Page;
   private readonly homeMenuLink: Locator;
   private readonly userMenuLink: Locator;
-  private readonly profileMenuLink: Locator;
+  protected readonly profileMenuLink: Locator;
   private readonly aboutModalLink: Locator;
   private readonly logoutModalLink: Locator;
   private readonly closeButton: Locator;
   private readonly cancelButton: Locator;
   private readonly logoutButton: Locator;
   private readonly username: string;
-  private readonly headerTitle: string;
+  protected readonly headerTitle: string;
+  protected readonly settingsModalLink: Locator;
 
   constructor(page: Page, headerTitle: string, username: string) {
     this.page = page;
@@ -22,6 +23,7 @@ export class BasePage {
     this.userMenuLink = page.getByRole('link', { name: 'Users' });
     this.profileMenuLink = page.getByRole('button', { name: username });
     this.aboutModalLink = page.getByRole('menuitem', { name: 'About' });
+    this.settingsModalLink = page.getByRole('menuitem', { name: 'Settings' });
     this.closeButton = page.getByRole('button', { name: 'Close' }).locator('svg');
     this.logoutModalLink = page.getByRole('menuitem', { name: 'Logout' });
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
@@ -43,6 +45,12 @@ export class BasePage {
     await this.aboutModalLink.click();
     await this.closeButton.click();
   }
+
+  async displaySettingsModal(): Promise<SettingsPage> {
+    await this.profileMenuLink.click();
+    await this.settingsModalLink.click();
+    return new SettingsPage(this.page, this.headerTitle, this.username);
+    }
 
   async displayLogoutModal() {
     await this.profileMenuLink.click();

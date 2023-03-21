@@ -17,7 +17,7 @@ export class CoursePage {
   readonly deleteConfirm: Locator;
   readonly courseLink: Locator;
 
-  constructor(page: Page, username: string) {
+  constructor(page: Page) {
     this.page = page;
     this.courseLink = page.getByRole('link', { name: 'Courses' });
     this.newCourseButton = page.getByRole('button', { name: 'New Course' });

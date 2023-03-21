@@ -1,14 +1,13 @@
-import { Locator, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { BasePage, ScenarioPage, CoursePage } from '.';
 
 export class ContentManagementPage extends BasePage {
-
   constructor(page: Page, username: string) {
     super(page, username);
   }
 
   async openNewCourseModalAndSaveAndDelete(courseName: string, description: string, keepaliveduration: string, pauseduration: string): Promise<ContentManagementPage> {
-    let coursePage = new CoursePage(this.page, courseName);
+    let coursePage = new CoursePage(this.page);
     await coursePage.openNewCourseForm();
     await coursePage.fillNewCourseForm(courseName, description, keepaliveduration, pauseduration);
     await coursePage.saveNewCourseForm();
